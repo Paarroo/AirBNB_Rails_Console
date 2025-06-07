@@ -63,8 +63,6 @@ rails console
 
 ## 🔄 Database Relationships Summary
 
-```
-
 City ──┐
 └─→ Accommodation ──┐
 ├─→ Reservation ←── User (Guest)
@@ -95,4 +93,7 @@ The seed file creates:
 **Built with ❤️ and Rails as part of learning advanced database relationships!**
 
 🏠 _"Home is where the heart is, good database design is where the magic happens"_ ✨
+
+```
+
 ```
