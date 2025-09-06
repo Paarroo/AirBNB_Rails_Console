@@ -14,7 +14,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_07_093323) do
   create_table "accommodations", force: :cascade do |t|
     t.integer "available_beds", null: false
     t.integer "price", null: false
-    t.string "description", null: false
+    t.text "description", null: false
     t.boolean "has_wifi", default: true, null: false
     t.text "welcome_message", null: false
     t.integer "owner_id", null: false

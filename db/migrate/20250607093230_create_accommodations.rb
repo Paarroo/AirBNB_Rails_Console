@@ -3,7 +3,7 @@ class CreateAccommodations < ActiveRecord::Migration[8.0]
     create_table :accommodations do |t|
       t.integer :available_beds, null: false
       t.integer :price, null: false
-      t.string :description, null: false
+      t.text :description, null: false
       t.boolean :has_wifi, null: false, default: true
       t.text :welcome_message, null: false
 
