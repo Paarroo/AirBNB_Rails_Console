@@ -1,65 +1,63 @@
-# 🏠 AirBnb Backend - Accommodation Booking System 🌟
+# 🏠 AirBnb Backend - Enhanced Console Experience 🌟
 
 ## 📖 Description
 
-🚀 Bign Rails project with advanced relational databases! An accommodation booking system where users can find and reserve perfect places to stay across multiple cities in France. ✈️
+🚀 Advanced Rails project with enhanced developer console experience! An accommodation booking system where users can find and reserve perfect places to stay across multiple cities in France. ✈️
+
+**✨ Features beautiful colorized console output, helpful debug methods, and enhanced model display for optimal development experience.**
 
 ## 🛠️ Prerequisites
 
-- Ruby (version 3.0 or higher)
-- Rails (version 8.0 or higher)
+- Ruby 3.4.5 (specified in .ruby-version)
+
+- Rails 8.0.2.1
+
 - SQLite3
+
 - Bundler gem
-- Terminal/Command line interface
+
+- Terminal with Unicode and color support
 
 ## 📦 Installation
 
-1. Clone the repository on your local machine
-2. Navigate to the project directory
-3. Install dependencies:
+1.  Clone the repository on your local machine
 
-```bash
+2.  Navigate to the project directory
+
+3.  Install dependencies:
+
 bundle install
-```
 
-4. Seed the database with sample data:
+4.  Seed the database with sample data:
 
-```bash
 rails db:seed
-```
 
-## 🎮 How to Use
+## 🎨 Enhanced Console Features
 
-1. Launch the Rails console to interact with the data:
+- **Welcome Banner** with ASCII art when starting console
 
-```bash
+- **Enhanced Gems**: awesome_print, colorize, hirb, pry-rails, better_errors
+
+- **Helper Methods**: `airbnb_overview`, `pretty_accommodation()`, `pretty_user()`, `pretty_reservation()`
+
+- **Colorized Output**: All models display with colors and emojis
+
+## 🎮 Usage
+
 rails console
-```
+​
 
-2. Examples of what you can do:
+# Try these enhanced commands:
 
-   ```ruby
-   # Find all accommodations in Paris
-   paris = City.find_by(name: "Paris")
-   paris.listings
+airbnb_overview
+pretty_accommodation(Accommodation.first)
+pretty_user(User.first)
+​
 
-   # Find all users who made reservations
-   User.joins(:reservations).distinct
+# Standard queries with colorized output
 
-   # See a listing's reservations
-   listing = Listing.first
-   listing.reservations
-
-   # Create a new reservation
-   Reservation.create!(
-     start_date: 2.days.from_now,
-     end_date: 5.days.from_now,
-     listing: Listing.first,
-     guest: User.first
-   )
-   ```
-
-```
+Accommodation.limit(3)
+User.where("email LIKE '%gmail%'")
 
 ## 🔄 Database Relationships Summary
 
@@ -67,33 +65,46 @@ City ──┐
 └─→ Accommodation ──┐
 ├─→ Reservation ←── User (Guest)
 └─→ User (Host)
-
-```
+​
+Relationships Explained:
+• City has many Accommodations
+• Accommodation belongs to City
+• Accommodation belongs to User (Host)
+• Reservation belongs to Accommodation
+• Reservation belongs to User (Guest)
+• User can have many Accommodations (as Host)
+• User can have many Reservations (as Guest)
 
 ## 🌱 Seed Data
 
 The seed file creates:
 
 - 20 users with realistic French data
+
 - 10 French cities with valid zip codes
+
 - 50 listings distributed across cities
+
 - Past and future reservations for each listing
 
 ## 🔐 Key Validations
 
 - **Email format**: Must be valid email format and unique
+
 - **Phone number**: Must match French phone number regex
+
 - **Dates**: End date must be after start date
+
 - **No overlapping**: Prevents double-booking of the same listing
+
 - **Positive values**: Beds and price must be greater than 0
+
 - **Description length**: Minimum 140 characters for listings
 
 ---
 
-**Built with ❤️ and Rails as part of learning advanced database relationships!**
+---
 
-🏠 _"Home is where the heart is, good database design is where the magic happens"_ ✨
+**Built with ❤️ and Rails featuring enhanced developer experience!**
 
-```
-
-```
+🏠 _"Home is where the heart is, beautiful console output is where the productivity happens"_ ✨

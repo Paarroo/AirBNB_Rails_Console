@@ -4,26 +4,26 @@ class Accommodation < ApplicationRecord
   has_many :reservations, dependent: :destroy
 
   validates :available_beds,
-    presence: { message: "Le nombre de lits est obligatoire" },
+    presence: { message: "Number of beds is required" },
     numericality: {
       only_integer: true,
       greater_than: 0,
-      message: "Le nombre de lits doit être un nombre entier strictement positif"
+      message: "Number of beds must be a positive integer"
     }
 
   validates :price,
-    presence: { message: "Price is mandatory" },
+    presence: { message: "Price is required" },
     numericality: {
       only_integer: true,
       greater_than: 0,
-      message: "Price must be a strictly positive integer (in euros)"
+      message: "Price must be a positive integer (in euros)"
     }
 
   validates :description,
-    presence: { message: "Description is mandatory" },
+    presence: { message: "Description is required" },
     length: {
       minimum: 140,
-      message: "The description must be at least 140 characters long"
+      message: "Description must be at least 140 characters long"
     }
 
   validates :has_wifi,
@@ -33,7 +33,7 @@ class Accommodation < ApplicationRecord
     }
 
   validates :welcome_message,
-    presence: { message: "Welcome message is mandatory" }
+    presence: { message: "Welcome message is required" }
 
   def wifi_available?
     has_wifi
@@ -61,7 +61,7 @@ class Accommodation < ApplicationRecord
   end
 
   def unavailable_dates
-    reservations.map do |reservation|
+    @unavailable_dates ||= reservations.map do |reservation|
       (reservation.start_date.to_date..reservation.end_date.to_date).to_a
     end.flatten.uniq.sort
   end
@@ -80,8 +80,34 @@ class Accommodation < ApplicationRecord
     available_dates
   end
 
+  # Console display helpers
+  def price_per_night
+    price
+  end
+
+  def host
+    owner
+  end
+
+  def title
+    # Generate a title from description since we don't have a title field
+    description[0..50].strip + (description.length > 50 ? '...' : '')
+  end
+
   def to_s
-    "#{city.name} - #{available_beds} lits - #{price}€/nuit#{wifi_available? ? ' (WiFi)' : ''}"
+    if Rails.env.development? && defined?(String.new.colorize)
+      "🏠 #{title} - #{price}€/night (#{available_beds} beds)#{wifi_available? ? ' 📶' : ''}".colorize(:green)
+    else
+      "#{title} - #{price}€/night (#{available_beds} beds)#{wifi_available? ? ' (WiFi)' : ''}"
+    end
+  end
+
+  def inspect
+    if Rails.env.development?
+      to_s
+    else
+      super
+    end
   end
 
   scope :with_wifi, -> { where(has_wifi: true) }
@@ -89,10 +115,11 @@ class Accommodation < ApplicationRecord
   scope :by_price_range, ->(min_price, max_price) { where(price: min_price..max_price) }
   scope :by_capacity, ->(min_beds) { where('available_beds >= ?', min_beds) }
   scope :available_on, ->(date) {
-    where.not(
-      id: Reservation.where(
-        'start_date <= ? AND end_date > ?', date, date
-      ).select(:accommodation_id)
-    )
+    left_joins(:reservations)
+      .where(
+        'reservations.id IS NULL OR NOT (reservations.start_date <= ? AND reservations.end_date > ?)', 
+        date, date
+      )
+      .distinct
   }
 end

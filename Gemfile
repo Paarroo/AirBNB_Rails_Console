@@ -1,7 +1,9 @@
 source "https://rubygems.org"
 
+ruby "3.4.5"
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.2"
+gem "rails", "~> 8.0.2.1"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use sqlite3 as the database for Active Record
@@ -31,8 +33,7 @@ gem "solid_cable"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
-# Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
-gem "kamal", require: false
+# Kamal deployment removed
 
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
@@ -49,21 +50,28 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Enhanced console and debugging gems
+  gem "awesome_print", "~> 1.9"    # Beautiful object printing
+  gem "pry-rails", "~> 0.3"        # Better console than IRB
+  gem "colorize", "~> 1.1"         # String coloring for logs
 end
+
+gem 'faker'
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem 'rails-erd'
+  
+  # Enhanced visual debugging and console tools
+  gem "better_errors", "~> 2.10"        # Beautiful error pages
+  gem "binding_of_caller", "~> 1.0"     # Advanced debugging context
+  gem "hirb", "~> 0.7"                  # Formatted tables in console
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-end
-
-gem 'faker'
-
-group :development do
-  gem 'rails-erd'
 end
