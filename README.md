@@ -61,19 +61,18 @@ User.where("email LIKE '%gmail%'")
 
 ## 🔄 Database Relationships Summary
 
+```text
 City ──┐
-└─→ Accommodation ──┐
-├─→ Reservation ←── User (Guest)
-└─→ User (Host)
-​
-Relationships Explained:
+       └─→ Accommodation ──┐
+                           ├─→ Reservation ←── User (Guest)
+                           └─→ User (Host)
+
+Relationships:
 • City has many Accommodations
-• Accommodation belongs to City
-• Accommodation belongs to User (Host)
-• Reservation belongs to Accommodation
-• Reservation belongs to User (Guest)
-• User can have many Accommodations (as Host)
-• User can have many Reservations (as Guest)
+• Accommodation belongs to City & User (Host)  
+• Reservation belongs to Accommodation & User (Guest)
+• User can be Host (owns accommodations) or Guest (makes reservations)
+```
 
 ## 🌱 Seed Data
 
